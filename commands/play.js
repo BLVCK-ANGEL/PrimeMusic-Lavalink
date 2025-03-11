@@ -5,43 +5,45 @@ const SpotifyWebApi = require('spotify-web-api-node');
 const { getData } = require('spotify-url-info')(require('node-fetch'));
 const requesters = new Map();
 
-
 const spotifyApi = new SpotifyWebApi({
-    clientId: config.spotifyClientId, 
+    clientId: config.spotifyClientId,
     clientSecret: config.spotifyClientSecret,
 });
 
+// Autocomplete function for song search
+async function handleAutocomplete(interaction) {
+    const query = interaction.options.getString('name');
 
-async function getSpotifyPlaylistTracks(playlistId) {
+    if (!query || query.length < 3) return; // Only trigger autocomplete if the query is at least 3 characters
+
     try {
-        const data = await spotifyApi.clientCredentialsGrant();
-        spotifyApi.setAccessToken(data.body.access_token);
+        const response = await spotifyApi.search(query, ['track', 'album', 'artist'], { limit: 5 });
 
-        let tracks = [];
-        let offset = 0;
-        let limit = 100;
-        let total = 0;
+        const tracks = response.body.tracks.items.map(item => {
+            return {
+                name: `${item.name} - ${item.artists.map(a => a.name).join(', ')}`,
+                value: item.uri,
+            };
+        });
 
-        do {
-            const response = await spotifyApi.getPlaylistTracks(playlistId, { limit, offset });
-            total = response.body.total;
-            offset += limit;
+        const artists = response.body.artists.items.map(item => {
+            return {
+                name: item.name,
+                value: item.uri,
+            };
+        });
 
-            for (const item of response.body.items) {
-                if (item.track && item.track.name && item.track.artists) {
-                    const trackName = `${item.track.name} - ${item.track.artists.map(a => a.name).join(', ')}`;
-                    tracks.push(trackName);
-                }
-            }
-        } while (tracks.length < total);
+        // Combining tracks and artists suggestions
+        const suggestions = [...tracks, ...artists].slice(0, 25); // Limit to 25 suggestions
 
-        return tracks;
+        await interaction.respond(suggestions);
     } catch (error) {
-        console.error("Error fetching Spotify playlist tracks:", error);
-        return [];
+        console.error('Error fetching Spotify search results:', error);
+        await interaction.respond([]);
     }
 }
 
+// Modified play function
 async function play(client, interaction, lang) {
     try {
         const query = interaction.options.getString('name');
@@ -97,7 +99,7 @@ async function play(client, interaction, lang) {
                     tracksToQueue.push(trackName);
                 } else if (spotifyData.type === 'playlist') {
                     isPlaylist = true;
-                    const playlistId = query.split('/playlist/')[1].split('?')[0]; 
+                    const playlistId = query.split('/playlist/')[1].split('?')[0];
                     tracksToQueue = await getSpotifyPlaylistTracks(playlistId);
                 }
             } catch (err) {
@@ -106,7 +108,6 @@ async function play(client, interaction, lang) {
                 return;
             }
         } else {
-            
             const resolve = await client.riffy.resolve({ query, requester: interaction.user.username });
 
             if (!resolve || typeof resolve !== 'object' || !Array.isArray(resolve.tracks)) {
@@ -127,23 +128,22 @@ async function play(client, interaction, lang) {
                 requesters.set(track.info.uri, interaction.user.username);
             } else {
                 const errorEmbed = new EmbedBuilder()
-                .setColor(config.embedColor)
-                .setAuthor({ 
-                    name: lang.play.embed.error,
-                    iconURL: musicIcons.alertIcon,
-                    url: config.SupportServer
-                })
-                .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
-                .setDescription(lang.play.embed.noResults);
+                    .setColor(config.embedColor)
+                    .setAuthor({ 
+                        name: lang.play.embed.error,
+                        iconURL: musicIcons.alertIcon,
+                        url: config.SupportServer
+                    })
+                    .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
+                    .setDescription(lang.play.embed.noResults);
 
-            await interaction.followUp({ embeds: [errorEmbed] });
+                await interaction.followUp({ embeds: [errorEmbed] });
                 return;
             }
         }
 
         let queuedTracks = 0;
 
-       
         for (const trackQuery of tracksToQueue) {
             const resolve = await client.riffy.resolve({ query: trackQuery, requester: interaction.user.username });
             if (resolve.tracks.length > 0) {
@@ -157,26 +157,55 @@ async function play(client, interaction, lang) {
         if (!player.playing && !player.paused) player.play();
 
         const randomEmbed = new EmbedBuilder()
-        .setColor(config.embedColor)
-        .setAuthor({
-            name: lang.play.embed.requestUpdated,
-            iconURL: musicIcons.beats2Icon,
-            url: config.SupportServer
-        })
-        .setDescription(lang.play.embed.successProcessed)
-        .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon });
-    
+            .setColor(config.embedColor)
+            .setAuthor({
+                name: lang.play.embed.requestUpdated,
+                iconURL: musicIcons.beats2Icon,
+                url: config.SupportServer
+            })
+            .setDescription(lang.play.embed.successProcessed)
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon });
+
         const message = await interaction.followUp({ embeds: [randomEmbed] });
 
         setTimeout(() => {
-            message.delete().catch(() => {}); 
+            message.delete().catch(() => {});
         }, 3000);
-        
-    
 
     } catch (error) {
         console.error('Error processing play command:', error);
         await interaction.followUp({ content: "❌ An error occurred while processing the request." });
+    }
+}
+
+// Helper function to get related tracks from Spotify
+async function getSpotifyPlaylistTracks(playlistId) {
+    try {
+        const data = await spotifyApi.clientCredentialsGrant();
+        spotifyApi.setAccessToken(data.body.access_token);
+
+        let tracks = [];
+        let offset = 0;
+        let limit = 100;
+        let total = 0;
+
+        do {
+            const response = await spotifyApi.getPlaylistTracks(playlistId, { limit, offset });
+            total = response.body.total;
+            offset += limit;
+
+            for (const item of response.body.items) {
+                if (item.track && item.track.name && item.track.artists) {
+                    const trackName = `${item.track.name} - ${item.track.artists.map(a => a.name).join(', ')}`;
+                    tracks.push(trackName);
+                }
+            }
+        } while (tracks.length < total);
+
+        return tracks;
+    } catch (error) {
+        console.error("Error fetching Spotify playlist tracks:", error);
+        return [];
     }
 }
 
@@ -188,8 +217,10 @@ module.exports = {
         name: 'name',
         description: 'Enter song name / link or playlist',
         type: ApplicationCommandOptionType.String,
-        required: true
+        required: true,
+        autocomplete: true // Enable autocomplete for this option
     }],
     run: play,
+    autocomplete: handleAutocomplete, // Attach the autocomplete function
     requesters: requesters,
 };
