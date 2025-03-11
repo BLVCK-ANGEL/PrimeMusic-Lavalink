@@ -80,12 +80,12 @@ function initializePlayer(client) {
         try {
             const musicard = await Dynamic({
                 thumbnailImage: track.info.thumbnail || 'https://example.com/default_thumbnail.png',
-                backgroundColor: '#070707',
+                backgroundImage: 'https://i.ibb.co/rSDSkbk/Zetro-game.png',
                 progress: 10,
-                progressColor: '#FF7A00',
+                progressColor: '#Ff0000',
                 progressBarColor: '#5F2D00',
                 name: track.info.title,
-                nameColor: '#FF7A00',
+                nameColor: '#ffffff',
                 author: track.info.author || 'Unknown Artist',
                 authorColor: '#696969',
             });
@@ -102,7 +102,7 @@ function initializePlayer(client) {
                 iconURL: musicIcons.playerIcon,
                 url: config.SupportServer
             })
-            .setFooter({ text: `Developed by SSRR | Prime Music v1.2`, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setTimestamp()
             .setDescription(  
                 `- **Title:** [${track.info.title}](${track.info.uri})\n` +
@@ -111,7 +111,7 @@ function initializePlayer(client) {
                 `- **Requester:** ${requester}\n` +
                 `- **Source:** ${track.info.sourceName}\n` + '**- Controls :**\n 🔁 `Loop`, ❌ `Disable`, ⏭️ `Skip`, 📜 `Queue`, 🗑️ `Clear`\n ⏹️ `Stop`, ⏸️ `Pause`, ▶️ `Resume`, 🔊 `Vol +`, 🔉 `Vol -`')
             .setImage('attachment://musicard.png')
-            .setColor('#FF7A00');
+            .setColor('#Ff0000');
 
             const actionRow1 = createActionRow1(false);
             const actionRow2 = createActionRow2(false);
