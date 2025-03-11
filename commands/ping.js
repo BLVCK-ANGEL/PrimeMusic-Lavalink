@@ -21,7 +21,7 @@ module.exports = {
         .setAuthor({
           name: lang.ping.embed.title,
           iconURL: musicIcons.pingIcon,
-          url: "https://discord.gg/xQF9f9yUEM"
+          url: "https://discord.gg/"
         })
         .setDescription(
           `${lang.ping.embed.responseTime.replace("{latency}", latency)}
