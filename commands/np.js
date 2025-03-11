@@ -43,7 +43,7 @@ async function nowPlaying(client, interaction, lang) {
                 url: config.SupportServer
             })
             .setDescription(`- [${player.current.info.title} - ${player.current.info.author}](${player.current.info.uri})\n\n${progressBar}`)
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setThumbnail(player.current.info.thumbnail);
 
         await interaction.reply({ embeds: [npEmbed] });
