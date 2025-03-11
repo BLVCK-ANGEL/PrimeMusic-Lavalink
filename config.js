@@ -17,10 +17,10 @@ module.exports = {
   errorLog: "", 
   nodes: [
      {
-      name: "XX",
-      password: "enteryourcustompass",
-      host: "180.188.226.76",
-      port:  7019,
+      name: "Main",
+      password: "horizxon.tech",
+      host: "lava.horizxon.tech",
+      port:  80,
       secure: false
     }
   ]
