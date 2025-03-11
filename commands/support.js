@@ -9,13 +9,13 @@ module.exports = {
     options: [],
     run: async (client, interaction, lang) => {
         try {
-            const supportServerLink = "https://discord.gg/xQF9f9yUEM";
+            const supportServerLink = "https://discord.gg/";
            
 
             const embed = new EmbedBuilder()
                 .setColor('#b300ff')
                 .setAuthor({
-                    name: lang.support.embed.authorName,
+                    name: "Developed by Ryuu",
                     iconURL: musicIcons.beats2Icon, 
                     url: config.SupportServer
                 })
@@ -31,7 +31,7 @@ module.exports = {
             const errorEmbed = new EmbedBuilder()
                 .setColor('#ff0000')
                 .setAuthor({
-                    name: lang.support.embed.error,
+                    name: "Developed by Ryuu",
                     iconURL: musicIcons.alertIcon,
                     url: config.SupportServer
                 })
