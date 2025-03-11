@@ -30,10 +30,10 @@ module.exports = {
       const ping = client.ws.ping;
 
       const embed = new EmbedBuilder()
-        .setColor(config.embedColor || "#7289DA")
+        .setColor(config.embedColor || "#Ff0000")
         .setTitle(lang.help.embed.title.replace("{botName}", botName))
         .setAuthor({
-          name: "Developed by Ryuu",
+          name: lang.help.embed.author,
           iconURL: musicIcons.alertIcon,
           url: config.SupportServer
         })
@@ -55,7 +55,7 @@ module.exports = {
             }).join('\n') || lang.help.embed.noCommands
           }
         )
-        .setFooter({ text: "Developed by Ryuu", iconURL: musicIcons.heartIcon })
+        .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
         .setTimestamp();
 
       return interaction.reply({ embeds: [embed] });
