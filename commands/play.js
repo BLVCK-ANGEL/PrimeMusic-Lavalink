@@ -10,6 +10,22 @@ const spotifyApi = new SpotifyWebApi({
     clientSecret: config.spotifyClientSecret,
 });
 
+// Fetch an access token once and reuse it
+let accessToken = null;
+
+async function fetchAccessToken() {
+    if (!accessToken) {
+        try {
+            const data = await spotifyApi.clientCredentialsGrant();
+            accessToken = data.body.access_token;
+            spotifyApi.setAccessToken(accessToken);
+        } catch (error) {
+            console.error('Error fetching Spotify access token:', error);
+            accessToken = null; // Reset token in case of error
+        }
+    }
+}
+
 // Autocomplete function for song search
 async function handleAutocomplete(interaction) {
     const query = interaction.options.getString('name');
@@ -17,7 +33,16 @@ async function handleAutocomplete(interaction) {
     if (!query || query.length < 3) return; // Only trigger autocomplete if the query is at least 3 characters
 
     try {
+        await fetchAccessToken(); // Ensure the access token is set
+
+        // Perform Spotify search for tracks, albums, and artists
         const response = await spotifyApi.search(query, ['track', 'album', 'artist'], { limit: 5 });
+
+        if (response.body.error) {
+            console.error('Spotify search error:', response.body.error);
+            await interaction.respond([]);
+            return;
+        }
 
         const tracks = response.body.tracks.items.map(item => {
             return {
@@ -43,7 +68,7 @@ async function handleAutocomplete(interaction) {
     }
 }
 
-// Modified play function
+// Modified play function with dynamic fallback suggestion
 async function play(client, interaction, lang) {
     try {
         const query = interaction.options.getString('name');
@@ -138,6 +163,39 @@ async function play(client, interaction, lang) {
                     .setDescription(lang.play.embed.noResults);
 
                 await interaction.followUp({ embeds: [errorEmbed] });
+
+                // Show dynamic fallback suggestions if no results found
+                await fetchAccessToken(); // Ensure the access token is set
+
+                // Get related tracks for the search query
+                const response = await spotifyApi.search(query, ['track'], { limit: 5 });
+
+                if (response.body.error) {
+                    console.error('Error fetching related tracks:', response.body.error);
+                    await interaction.followUp({ content: "❌ Could not fetch related tracks." });
+                    return;
+                }
+
+                const relatedTracks = response.body.tracks.items.map(item => {
+                    return {
+                        name: `${item.name} - ${item.artists.map(a => a.name).join(', ')}`,
+                        value: item.uri,
+                    };
+                });
+
+                // Create an embed with related tracks suggestions
+                const suggestionEmbed = new EmbedBuilder()
+                    .setColor(config.embedColor)
+                    .setAuthor({
+                        name: lang.play.embed.suggestion,
+                        iconURL: musicIcons.musicNoteIcon,
+                        url: config.SupportServer
+                    })
+                    .setDescription('Here are some related tracks based on your search:')
+                    .addFields(relatedTracks.map(track => ({ name: track.name, value: track.value })))
+                    .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon });
+
+                await interaction.followUp({ embeds: [suggestionEmbed] });
                 return;
             }
         }
@@ -178,11 +236,10 @@ async function play(client, interaction, lang) {
     }
 }
 
-// Helper function to get related tracks from Spotify
+// Helper function to get Spotify playlist tracks
 async function getSpotifyPlaylistTracks(playlistId) {
     try {
-        const data = await spotifyApi.clientCredentialsGrant();
-        spotifyApi.setAccessToken(data.body.access_token);
+        await fetchAccessToken(); // Ensure the access token is set
 
         let tracks = [];
         let offset = 0;
@@ -217,10 +274,8 @@ module.exports = {
         name: 'name',
         description: 'Enter song name / link or playlist',
         type: ApplicationCommandOptionType.String,
-        required: true,
-        autocomplete: true // Enable autocomplete for this option
+        required: true
     }],
     run: play,
-    autocomplete: handleAutocomplete, // Attach the autocomplete function
     requesters: requesters,
 };
