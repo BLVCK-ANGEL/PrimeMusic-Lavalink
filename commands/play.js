@@ -192,7 +192,12 @@ async function play(client, interaction, lang) {
                         url: config.SupportServer
                     })
                     .setDescription('Here are some related tracks based on your search:')
-                    .addFields(relatedTracks.map(track => ({ name: track.name, value: track.value })))
+                    .addFields(
+                        relatedTracks.slice(0, 5).map(track => ({
+                            name: track.name,
+                            value: `[Listen here](${track.value})`
+                        }))
+                    )
                     .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon });
 
                 await interaction.followUp({ embeds: [suggestionEmbed] });
@@ -277,5 +282,6 @@ module.exports = {
         required: true
     }],
     run: play,
+    autocomplete: handleAutocomplete, // Attach autocomplete function
     requesters: requesters,
 };
