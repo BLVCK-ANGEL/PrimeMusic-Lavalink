@@ -14,7 +14,7 @@ async function skip(client, interaction, lang) {
                     iconURL: musicIcons.alertIcon,
                     url: config.SupportServer
                 })
-                .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+                .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
                 .setDescription(lang.skip.embed.noActivePlayerDescription);
 
             await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
@@ -30,7 +30,7 @@ async function skip(client, interaction, lang) {
                 iconURL: musicIcons.skipIcon,
                 url: config.SupportServer
             })
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setDescription(lang.skip.embed.songSkippedDescription);
 
         await interaction.reply({ embeds: [embed] });
@@ -44,7 +44,7 @@ async function skip(client, interaction, lang) {
                 iconURL: musicIcons.alertIcon,
                 url: config.SupportServer
             })
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setDescription(lang.skip.embed.errorDescription);
 
         await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
