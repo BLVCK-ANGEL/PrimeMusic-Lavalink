@@ -33,7 +33,7 @@ module.exports = {
         .setColor(config.embedColor || "#7289DA")
         .setTitle(lang.help.embed.title.replace("{botName}", botName))
         .setAuthor({
-          name: lang.help.embed.author,
+          name: "Developed by Ryuu",
           iconURL: musicIcons.alertIcon,
           url: config.SupportServer
         })
@@ -55,7 +55,7 @@ module.exports = {
             }).join('\n') || lang.help.embed.noCommands
           }
         )
-        .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+        .setFooter({ text: "Developed by Ryuu", iconURL: musicIcons.heartIcon })
         .setTimestamp();
 
       return interaction.reply({ embeds: [embed] });
