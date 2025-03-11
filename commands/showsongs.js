@@ -17,7 +17,7 @@ async function showSongs(client, interaction, lang) {
                     iconURL: musicIcons.alertIcon,
                     url: config.SupportServer
                 })
-                .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+                .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
                 .setDescription(lang.showsongs.embed.playlistNotFound);
 
             await interaction.reply({ embeds: [embed], ephemeral: true });
@@ -32,7 +32,7 @@ async function showSongs(client, interaction, lang) {
                     iconURL: musicIcons.alertIcon,
                     url: config.SupportServer
                 })
-                .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+                .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
                 .setDescription(lang.showsongs.embed.noPermission);
 
             await interaction.reply({ embeds: [embed], ephemeral: true });
@@ -53,7 +53,7 @@ async function showSongs(client, interaction, lang) {
                     iconURL: musicIcons.playlistIcon,
                     url: config.SupportServer
                 })
-                .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+                .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
                 .setDescription(lang.showsongs.embed.noSongs);
 
             await interaction.reply({ embeds: [embed] });
@@ -72,7 +72,7 @@ async function showSongs(client, interaction, lang) {
                     iconURL: musicIcons.playlistIcon,
                     url: config.SupportServer
                 })
-                .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+                .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
                 .setDescription(description);
 
             await interaction.reply({ embeds: [embed], ephemeral: index !== 0 }); 
@@ -86,7 +86,7 @@ async function showSongs(client, interaction, lang) {
                 iconURL: musicIcons.alertIcon,
                 url: config.SupportServer
             })
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setDescription(lang.showsongs.embed.errorDescription);
 
         await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
