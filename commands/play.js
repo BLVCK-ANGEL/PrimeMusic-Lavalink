@@ -25,7 +25,7 @@ async function suggestTracks(client, interaction, query) {
                 trackUri: track.info.uri,
                 button: new ButtonBuilder()
                     .setCustomId(`track_${index}`)
-                    .setLabel(`${index + 1}. ${track.info.title}`)
+                    .setLabel(`${index + 1}`)
                     .setStyle(ButtonStyle.Primary)
             };
         });
@@ -117,7 +117,7 @@ async function play(client, interaction, lang) {
             const embed = new EmbedBuilder()
                 .setColor(config.embedColor)
                 .setTitle('🎶 Track Suggestions')
-                .setDescription('Please select a track by clicking on a button below.')
+                .setDescription(trackSuggestions.map((track, index) => `${index + 1}. **${track.name}**`).join('\n'))
                 .setFooter({ text: 'Developed by Ryuu', iconURL: musicIcons.heartIcon });
 
             const message = await interaction.followUp({ embeds: [embed], components: [row] });
@@ -144,7 +144,7 @@ async function play(client, interaction, lang) {
                 if (!player.playing && !player.paused) player.play();
 
                 await buttonInteraction.update({
-                    content: `You selected: ${selectedTrack.name}`,
+                    content: `You selected: **${selectedTrack.name}**`,
                     embeds: [],
                     components: []
                 });
