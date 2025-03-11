@@ -20,7 +20,7 @@
   "scripts": {
     "start": "node index.js"
   },
-  "author": "SSRR",
+  "author": "Ryuu",
   "license": "XX",
   "engines": {
     "node": "20.x"
