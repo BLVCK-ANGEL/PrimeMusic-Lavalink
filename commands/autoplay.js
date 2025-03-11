@@ -21,7 +21,7 @@ async function toggleAutoplay(client, interaction, lang) {
                 iconURL: musicIcons.correctIcon,
                 url: config.SupportServer 
             })
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setTimestamp()
             .setDescription(lang.autoplay.embed.autoplayStatus.replace("{status}", enable ? lang.autoplay.embed.enabled : lang.autoplay.embed.disabled));
 
@@ -35,7 +35,7 @@ async function toggleAutoplay(client, interaction, lang) {
                 iconURL: musicIcons.alertIcon,
                 url: config.SupportServer 
             })
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setTimestamp()
             .setDescription(lang.autoplay.embed.errorDescription);
 
