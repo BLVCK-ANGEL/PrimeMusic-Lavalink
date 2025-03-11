@@ -26,7 +26,7 @@ async function nowPlaying(client, interaction, lang) {
                     iconURL: musicIcons.alertIcon,
                     url: config.SupportServer
                 })
-                .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+                .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
                 .setDescription(lang.nowPlaying.embed.noSong);
 
             await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
@@ -57,7 +57,7 @@ async function nowPlaying(client, interaction, lang) {
                 iconURL: musicIcons.alertIcon,
                 url: config.SupportServer
             })
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setDescription(lang.nowPlaying.embed.errorDescription);
 
         await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
