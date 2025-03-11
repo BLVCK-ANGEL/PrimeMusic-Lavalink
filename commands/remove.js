@@ -16,7 +16,7 @@ async function remove(client, interaction, lang) {
                     url: config.SupportServer
                 })
                 .setDescription(lang.remove.embed.queueEmptyDescription)
-                .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon });
+                .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon });
 
             await interaction.reply({ embeds: [emptyQueueEmbed], ephemeral: true });
             return;
@@ -31,7 +31,7 @@ async function remove(client, interaction, lang) {
                     url: config.SupportServer
                 })
                 .setDescription(lang.remove.embed.invalidPositionDescription.replace("{queueLength}", player.queue.length))
-                .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon });
+                .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon });
 
             await interaction.reply({ embeds: [invalidPositionEmbed], ephemeral: true });
             return;
@@ -47,7 +47,7 @@ async function remove(client, interaction, lang) {
                 url: config.SupportServer
             })
             .setDescription(lang.remove.embed.songRemovedDescription.replace("{songTitle}", removedTrack.info.title))
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon });
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon });
 
         await interaction.reply({ embeds: [embed] });
     } catch (error) {
@@ -59,7 +59,7 @@ async function remove(client, interaction, lang) {
                 iconURL: musicIcons.alertIcon,
                 url: config.SupportServer
             })
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setDescription(lang.remove.embed.errorDescription);
 
         await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
