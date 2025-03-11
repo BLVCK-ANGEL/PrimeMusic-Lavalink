@@ -19,7 +19,7 @@ async function addSong(client, interaction, lang) {
                     url: config.SupportServer
                 })
                 .setDescription(lang.addsong.embed.playlistNotFoundDescription)
-                .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+                .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
                 .setTimestamp();
             await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
@@ -34,7 +34,7 @@ async function addSong(client, interaction, lang) {
                     url: config.SupportServer
                 })
                 .setDescription(lang.addsong.embed.accessDeniedDescription)
-                .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+                .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
                 .setTimestamp();
             await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
@@ -62,7 +62,7 @@ async function addSong(client, interaction, lang) {
                 url: config.SupportServer
             })
             .setDescription(lang.addsong.embed.songAddedDescription.replace("{songInput}", songInput).replace("{playlistName}", playlistName))
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setTimestamp();
 
         await interaction.reply({ embeds: [embed] });
@@ -76,7 +76,7 @@ async function addSong(client, interaction, lang) {
                 url: config.SupportServer
             })
             .setDescription(lang.addsong.embed.errorDescription)
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setTimestamp();
 
         await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
