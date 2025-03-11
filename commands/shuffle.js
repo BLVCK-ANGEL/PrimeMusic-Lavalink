@@ -15,7 +15,7 @@ async function shuffle(client, interaction, lang) {
                     url: config.SupportServer
                 })
                 .setDescription(lang.shuffle.embed.queueEmptyDescription)
-                .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon });
+                .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon });
 
             await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
@@ -35,7 +35,7 @@ async function shuffle(client, interaction, lang) {
                 url: config.SupportServer
             })
             .setDescription(lang.shuffle.embed.queueShuffledDescription)
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon });
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon });
 
         await interaction.reply({ embeds: [embed] });
     } catch (error) {
@@ -47,7 +47,7 @@ async function shuffle(client, interaction, lang) {
                 iconURL: musicIcons.alertIcon,
                 url: config.SupportServer
             })
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setDescription(lang.shuffle.embed.errorDescription);
 
         await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
