@@ -18,7 +18,7 @@ async function deleteSong(client, interaction, lang) {
                     url: config.SupportServer
                 })
                 .setDescription(lang.deletesong.embed.playlistNotFoundDescription)
-                .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+                .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
                 .setTimestamp();
 
             await interaction.reply({ embeds: [embed], ephemeral: true });
@@ -34,7 +34,7 @@ async function deleteSong(client, interaction, lang) {
                 url: config.SupportServer
             })
             .setDescription(lang.deletesong.embed.songDeletedDescription.replace("{songName}", songName).replace("{playlistName}", playlistName))
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setTimestamp();
 
         await interaction.reply({ embeds: [embed] });
@@ -47,7 +47,7 @@ async function deleteSong(client, interaction, lang) {
                 iconURL: musicIcons.alertIcon,
                 url: config.SupportServer
             })
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setTimestamp()
             .setDescription(lang.deletesong.embed.errorDescription);
 
