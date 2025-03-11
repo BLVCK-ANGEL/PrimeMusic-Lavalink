@@ -14,7 +14,7 @@ async function pause(client, interaction, lang) {
                     iconURL: musicIcons.alertIcon,
                     url: config.SupportServer
                 })
-                .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+                .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
                 .setDescription(lang.pause.embed.noActivePlayer);
 
             await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
@@ -30,7 +30,7 @@ async function pause(client, interaction, lang) {
                 iconURL: musicIcons.pauseresumeIcon,
                 url: config.SupportServer
             })
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setDescription(lang.pause.embed.pausedDescription);
 
         await interaction.reply({ embeds: [embed] });
@@ -44,7 +44,7 @@ async function pause(client, interaction, lang) {
                 iconURL: musicIcons.alertIcon,
                 url: config.SupportServer
             })
-            .setFooter({ text: lang.footer, iconURL: musicIcons.heartIcon })
+            .setFooter({ text: `Developed by Ryuu `, iconURL: musicIcons.heartIcon })
             .setDescription(lang.pause.embed.errorDescription);
 
         await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
